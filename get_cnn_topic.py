@@ -22,10 +22,14 @@ soup = BeautifulSoup(content, 'lxml')
 
 title = soup.h1.get_text().lstrip().rstrip()
 
-query = "select count(*) from wordroot_cnn where title = '{title}'".format(title=title)
-cursor = db.sqlquery(query)
+query = "select count(*) from wordroot_cnn where title = %s"
+con = db.get_connection()
+cursor = con.cursor()
+cursor.execute(query, (title,))
+con.commit()
+con.close()
 count = cursor.fetchone()[0]
-
+print(count)
 if count == 0:
     content = ''
     for i in soup.select('.zn-body__paragraph'):

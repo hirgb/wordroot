@@ -4,7 +4,7 @@ import pymysql
 
 
 def sqlquery(str):
-    con = pymysql.connect('localhost', 'root', '!QAZ2wsx', 'wavelab', charset = 'utf8')
+    con = pymysql.connect('localhost', 'root', '!QAZ2wsx', 'wavelab', charset='utf8')
     try:
         cursor = con.cursor()
         cursor.execute(str)
