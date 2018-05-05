@@ -2,7 +2,9 @@
 # coding:utf-8
 
 from urllib import request
-import json, db
+from mytool import *
+import json, pymysql
+
 
 def get_content(url, host, encode):
     """
@@ -28,6 +30,11 @@ del content['love'], content['caption'], content['translation'], content['sp_pv'
 
 dict_str = json.dumps(content, ensure_ascii=False)
 
-query = "insert ignore into wordroot_mryj (date, data) values ('{date}', '{data}')"\
-    .format(date=content['dateline'], data=dict_str)
-db.sqlquery(query)
+query = "insert ignore into wordroot_mryj (date, data) values (%s, %s)"
+
+con = pymysql.connect('localhost', 'root', '!QAZ2wsx', 'wavelab', charset='utf8')
+cursor = con.cursor()
+cursor.execute(query, (content['dateline'], dict_str))
+con.commit()
+con.close()
+log('get', 'meiriyiju is added.')

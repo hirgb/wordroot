@@ -45,5 +45,3 @@ if count == 0:
     con.commit()
     con.close()
     log('get', '[%s] is added.' % title)
-else:
-    log('get', '[%s] is exist.' % title)
